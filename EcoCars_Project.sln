@@ -3,9 +3,58 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{23CCA01C-23C6-4981-A2E6-B6A9FB3E4004}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{6CB45082-690C-4AC5-8EC9-1C7BE606ACAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{897DB2FD-85BF-46CE-B730-647BE80CBC57}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcoCars_Project.Application", "EcoCars_Project.Application\EcoCars_Project.Application.csproj", "{9C76EAD3-806B-4E37-B680-1D893D51EDD1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcoCars_Project.Domain", "EcoCars_Project.Domain\EcoCars_Project.Domain.csproj", "{341D527A-5765-407D-904F-F45D1B0B4BF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoCars_Project.Infrastructure", "EcoCars_Project.Infrastructure\EcoCars_Project.Infrastructure.csproj", "{3F8E4CFE-0690-4E67-A78D-2EA9D2A6B3ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoCars_Project.Persistance", "EcoCars_Project.Persistance\EcoCars_Project.Persistance.csproj", "{2403F9F3-DA8C-43A4-86B4-F70E01D516C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoCars_Project.API", "EcoCars_Project.API\EcoCars_Project.API.csproj", "{2B1C51DD-3D07-4CB0-BFF4-067A92E98DC1}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C76EAD3-806B-4E37-B680-1D893D51EDD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C76EAD3-806B-4E37-B680-1D893D51EDD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C76EAD3-806B-4E37-B680-1D893D51EDD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C76EAD3-806B-4E37-B680-1D893D51EDD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341D527A-5765-407D-904F-F45D1B0B4BF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341D527A-5765-407D-904F-F45D1B0B4BF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341D527A-5765-407D-904F-F45D1B0B4BF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341D527A-5765-407D-904F-F45D1B0B4BF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F8E4CFE-0690-4E67-A78D-2EA9D2A6B3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F8E4CFE-0690-4E67-A78D-2EA9D2A6B3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F8E4CFE-0690-4E67-A78D-2EA9D2A6B3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F8E4CFE-0690-4E67-A78D-2EA9D2A6B3ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2403F9F3-DA8C-43A4-86B4-F70E01D516C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2403F9F3-DA8C-43A4-86B4-F70E01D516C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2403F9F3-DA8C-43A4-86B4-F70E01D516C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2403F9F3-DA8C-43A4-86B4-F70E01D516C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B1C51DD-3D07-4CB0-BFF4-067A92E98DC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B1C51DD-3D07-4CB0-BFF4-067A92E98DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B1C51DD-3D07-4CB0-BFF4-067A92E98DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B1C51DD-3D07-4CB0-BFF4-067A92E98DC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9C76EAD3-806B-4E37-B680-1D893D51EDD1} = {23CCA01C-23C6-4981-A2E6-B6A9FB3E4004}
+		{341D527A-5765-407D-904F-F45D1B0B4BF2} = {23CCA01C-23C6-4981-A2E6-B6A9FB3E4004}
+		{3F8E4CFE-0690-4E67-A78D-2EA9D2A6B3ED} = {6CB45082-690C-4AC5-8EC9-1C7BE606ACAE}
+		{2403F9F3-DA8C-43A4-86B4-F70E01D516C2} = {6CB45082-690C-4AC5-8EC9-1C7BE606ACAE}
+		{2B1C51DD-3D07-4CB0-BFF4-067A92E98DC1} = {897DB2FD-85BF-46CE-B730-647BE80CBC57}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2E7B736-5A21-441E-8328-CC4D37212CB3}
