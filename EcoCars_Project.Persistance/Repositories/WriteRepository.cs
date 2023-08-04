@@ -7,14 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EcoCars_Project.Persistance.Contexts;
 
 namespace EcoCars_Project.Persistance.Repositories
 {
     public class WriteRepository<T>:IWriteRepository<T> where T : BaseEntity
     {
-        private readonly ETicaretAPIDbContext _context;
+        private readonly EcoCarsDbContext _context;
 
-        public WriteRepository(ETicaretAPIDbContext context)
+        public WriteRepository(EcoCarsDbContext context)
         {
             _context = context;
         }
