@@ -10,7 +10,6 @@ namespace EcoCars_Project.Domain.Entities
             Models = new List<Model>();
         }
 
-        public int Id { get; set; }
         public string BrandName { get; set; }
         public List<Model> Models { get; set; }
     }

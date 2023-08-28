@@ -7,9 +7,8 @@ namespace EcoCars_Project.Domain.Entities
 {
     public class TB_Ads:BaseEntity
     {
-        public int Id { get; set; }
         //[Required(ErrorMessage = "Modeli daxil edin")]
-        public int Model_Id { get; set; }
+        public Guid Model_Id { get; set; }
         //[Required(ErrorMessage = "Ban növünü daxil edin")]
         public int Ban_Type { get; set; }
         //[Required(ErrorMessage = "Yürüşü daxil edin")]

@@ -18,7 +18,7 @@ namespace EcoCars_Project.Persistance.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Model>()
-                .HasOne<Brand>(b => b.brand)
+                .HasOne<Brand>(b => b.Brand)
                 .WithMany(a => a.Models)
                 .HasForeignKey(b => b.BrandId);
 
