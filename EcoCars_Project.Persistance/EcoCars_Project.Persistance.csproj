@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EcoCars_Project.Application\EcoCars_Project.Application.csproj" />
-    <ProjectReference Include="..\EcoCars_Project.Domain\EcoCars_Project.Domain.csproj" />
   </ItemGroup>
 
 </Project>

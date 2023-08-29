@@ -1,4 +1,8 @@
-﻿using EcoCars_Project.Persistance.Contexts;
+﻿using EcoCars_Project.Application.Repositories.TB_AdsImagesRepository;
+using EcoCars_Project.Application.Repositories.TB_AdsRepository;
+using EcoCars_Project.Persistance.Contexts;
+using EcoCars_Project.Persistance.Repositories.TB_AdsImagesRepository;
+using EcoCars_Project.Persistance.Repositories.TB_AdsRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,6 +20,11 @@ namespace EcoCars_Project.Persistance
             services.AddDbContext<EcoCarsDbContext>(options => 
                 options.UseNpgsql(Configuration.ConnectionString));
 
+            services.AddScoped<ITB_AdsReadRepository, TB_AdsReadRepository>();
+            services.AddScoped<ITB_AdsWriteRepository, TB_AdsWriteRepository>();
+            
+            services.AddScoped<ITB_AdsImagesReadRepository, TB_AdsImagesReadRepository>();
+            services.AddScoped<ITB_AdsImagesWriteRepository, TB_AdsImagesWriteRepository>();
 
 
         }
