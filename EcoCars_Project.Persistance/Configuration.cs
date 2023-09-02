@@ -14,10 +14,10 @@ namespace EcoCars_Project.Persistance
             get
             {
                 ConfigurationManager configurationManager = new();
-                configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../EcoCars_Project/EcoCars_Project.API"));
+                configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../EcoCars/EcoCars_Project.API"));
                 configurationManager.AddJsonFile("appsettings.json");
 
-                return configurationManager.GetConnectionString("PostgreSQL");
+                return configurationManager.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
             }
         }
     }

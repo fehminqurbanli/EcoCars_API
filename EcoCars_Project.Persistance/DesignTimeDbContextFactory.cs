@@ -14,7 +14,7 @@ namespace EcoCars_Project.Persistance
         public EcoCarsDbContext CreateDbContext(string[] args)
         {
             DbContextOptionsBuilder<EcoCarsDbContext> dbContextOptionsBuilder = new();
-            dbContextOptionsBuilder.UseNpgsql(Configuration.ConnectionString);
+            dbContextOptionsBuilder.UseSqlServer(Configuration.ConnectionString);
             return new(dbContextOptionsBuilder.Options);
         }
     }
