@@ -1,4 +1,5 @@
 ﻿using EcoCars_Project.Domain.Entities.Common;
+using System.Text.Json.Serialization;
 
 namespace EcoCars_Project.Domain.Entities
 {

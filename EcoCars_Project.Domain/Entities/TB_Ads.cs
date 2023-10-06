@@ -1,7 +1,7 @@
 ﻿using EcoCars_Project.Domain.Entities.Common;
 
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
 
 namespace EcoCars_Project.Domain.Entities
 {
@@ -37,14 +37,14 @@ namespace EcoCars_Project.Domain.Entities
         public bool Rear_Camera { get; set; }
         public bool Seat_Heating { get; set; }
         //[Required(ErrorMessage = "Adı daxil edin")]
-        public string Name { get; set; }
+        public string name { get; set; }
         //[Required(ErrorMessage = "Şəhəri daxil edin")]
-        public string City { get; set; }
+        public string city { get; set; }
         //[Required(ErrorMessage = "Emaili daxil edin")]
-        public string Email { get; set; }
+        public string email { get; set; }
 
         //[Required(ErrorMessage = "Telefon nomresi daxil edin")]
-        public string PhoneNumber { get; set; }
+        public string phonenumber { get; set; }
 
 
         [ForeignKey("Ads_Id")]
