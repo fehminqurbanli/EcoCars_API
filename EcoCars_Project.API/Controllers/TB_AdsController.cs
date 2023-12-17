@@ -1,9 +1,13 @@
 ﻿using EcoCars_Project.Application.Repositories.BrandRepository;
 using EcoCars_Project.Application.Repositories.ModelRepository;
+using EcoCars_Project.Application.Repositories.TB_AdsImagesRepository;
 using EcoCars_Project.Application.Repositories.TB_AdsRepository;
 using EcoCars_Project.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Session;
+using System.Net.Http.Headers;
+using System.Web;
 
 namespace EcoCars_Project.API.Controllers
 {
@@ -12,19 +16,24 @@ namespace EcoCars_Project.API.Controllers
     public class TB_AdsController : ControllerBase
     {
         private readonly ITB_AdsWriteRepository _tB_AdsWriteRepository;
+        private readonly ITB_AdsImagesWriteRepository _tB_AdsImagesWriteRepository;
         private readonly ITB_AdsReadRepository _tB_AdsReadRepository;
         private readonly IBrandReadRepository _brandReadRepository;
         private readonly IModelReadRepository _modelReadRepository;
-
+        private readonly IWebHostEnvironment _env;
         public TB_AdsController(ITB_AdsWriteRepository tB_AdsWriteRepository,
             ITB_AdsReadRepository tB_AdsReadRepository,
             IBrandReadRepository brandReadRepository,
-            IModelReadRepository modelReadRepository)
+            IModelReadRepository modelReadRepository,
+            IWebHostEnvironment env,
+            ITB_AdsImagesWriteRepository tB_AdsImagesWriteRepository)
         {
             _tB_AdsWriteRepository = tB_AdsWriteRepository;
             _tB_AdsReadRepository = tB_AdsReadRepository;
             _brandReadRepository = brandReadRepository;
             _modelReadRepository = modelReadRepository;
+            _env = env;
+            _tB_AdsImagesWriteRepository = tB_AdsImagesWriteRepository;
         }
 
 
@@ -35,23 +44,31 @@ namespace EcoCars_Project.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            var result = await _tB_AdsReadRepository.GetByIdAsync(id);
+            return Ok(result);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Post(TB_Ads model)
-        {
+        {//images change
             model.CreatedDate = DateTime.Now;
             model.UpdatedDate = DateTime.Now;
-            model.Model_Id = Guid.Parse("954102DC-95AC-4E8D-9363-02299E6DDB1C");
-            model.Ban_Type = 1;
-            model.Distance = 1;
-            model.Color_Id = 1;
-            model.Price = 1;
-            model.Speed_Box = 1;
-            model.Currency_Id = 1;
-            model.Transmission_Id = 1;
-            model.Year = 1;
-            model.Note = "asd";
+
+           
             await _tB_AdsWriteRepository.AddAsync(model);
             await _tB_AdsWriteRepository.SaveAsync();
+
+            var adsId = _tB_AdsReadRepository.GetAll().OrderByDescending(x=>x.CreatedDate).FirstOrDefault().Id;
+            List<TB_AdsImages> tB_AdsImages = new List<TB_AdsImages>();
+            foreach (var item in model.TB_AdsImages)
+            {
+                tB_AdsImages.Add(new TB_AdsImages() { CarImagePath = item.CarImagePath, Ads_Id = adsId });
+            }
+            await _tB_AdsImagesWriteRepository.AddRangeAsync(tB_AdsImages);
 
             return Ok();
 
@@ -66,23 +83,74 @@ namespace EcoCars_Project.API.Controllers
         }
 
         [HttpGet("GetModelNames")]
-        public IActionResult GetModelNames(Guid? brandId)
+        public IActionResult GetModelNames(string brandId)
         {
             IQueryable<Model> result = null;
-
+            //Guid brandId = _brandReadRepository.GetAll().Where(x => x.BrandName == brandName).FirstOrDefault().Id;
             if (brandId != null)
             {
-                result = _modelReadRepository.GetWhere(x => x.BrandId == brandId);
+                result = _modelReadRepository.GetAll().Where(x => x.BrandId ==Guid.Parse(brandId));
             }
             return Ok(result);
         }
 
+        //[HttpPost("Upload"), DisableRequestSizeLimit]
+        //public async Task<IActionResult> Upload()
+        //{
+        //    try
+        //    {
+        //        var formCollection = await Request.ReadFormAsync();
+        //        var file = formCollection.Files.First();
 
+        //        //var file = Request.Form.Files[0];
+        //        var folderName = Path.Combine("Resources", "Images");
+        //        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+        //        if (file.Length > 0)
+        //        {
+        //            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+        //            var fullPath = Path.Combine(pathToSave, fileName);
+        //            var dbPath = Path.Combine(folderName, fileName);
+        //            using (var stream = new FileStream(fullPath, FileMode.Create))
+        //            {
+        //                file.CopyTo(stream);
+        //            }
+        //            return Ok(new { dbPath });
+        //        }
+        //        else
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex}");
+        //    }
+        //}
+
+
+        [HttpPost("Upload")]
+        public JsonResult Upload()
+        {
+            try
+            {
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = _env.ContentRootPath + "/Resources/Images/" + filename;
+
+                //Session["username"] = physicalPath;
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    stream.CopyTo(stream);
+                }
+
+                return new JsonResult(filename);
+            }
+            catch (Exception)
+            {
+                return new JsonResult("anonymous.png");
+            }
+        }
     }
 
-    class BrandDto
-    {
-        public Guid Id { get; set; }
-        public string BrandName { get; set; }
-    }
 }

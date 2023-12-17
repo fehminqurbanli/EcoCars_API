@@ -29,10 +29,10 @@ namespace EcoCars_Project.Persistance.Contexts
                 .HasForeignKey(b => b.TypeId);
 
             //TB_ADS-TB_ADSIMAGES relation
-            modelBuilder.Entity<TB_AdsImages>()
-                .HasOne<TB_Ads>(b => b.TB_Ads)
-                .WithMany(a => a.TB_AdsImages)
-                .HasForeignKey(x => x.Ads_Id);
+            //modelBuilder.Entity<TB_AdsImages>()
+            //    .HasOne<TB_Ads>(b => b.TB_Ads)
+            //    .WithMany(a => a.TB_AdsImages)
+            //    .HasForeignKey(x => x.Ads_Id);
         }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }

@@ -33,6 +33,8 @@ namespace EcoCars_Project.Persistance
             services.AddScoped<IBrandReadRepository, BrandReadRepository>();
             services.AddScoped<IModelReadRepository, ModelReadRepository>();
 
+
+
         }
     }
 }

@@ -4,6 +4,7 @@ using EcoCars_Project.Persistance.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcoCars_Project.Persistance.Migrations
 {
     [DbContext(typeof(EcoCarsDbContext))]
-    partial class EcoCarsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231021063907_addingSeatCount")]
+    partial class addingSeatCount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,12 +223,15 @@ namespace EcoCars_Project.Persistance.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("TB_AdsId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Ads_Id");
+                    b.HasIndex("TB_AdsId");
 
                     b.ToTable("TB_AdsImages");
                 });
@@ -255,8 +261,8 @@ namespace EcoCars_Project.Persistance.Migrations
             modelBuilder.Entity("EcoCars_Project.Domain.Entities.TB_AdsImages", b =>
                 {
                     b.HasOne("EcoCars_Project.Domain.Entities.TB_Ads", "TB_Ads")
-                        .WithMany("TB_AdsImages")
-                        .HasForeignKey("Ads_Id")
+                        .WithMany()
+                        .HasForeignKey("TB_AdsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -271,11 +277,6 @@ namespace EcoCars_Project.Persistance.Migrations
             modelBuilder.Entity("EcoCars_Project.Domain.Entities.GeneralType", b =>
                 {
                     b.Navigation("GeneralInfo");
-                });
-
-            modelBuilder.Entity("EcoCars_Project.Domain.Entities.TB_Ads", b =>
-                {
-                    b.Navigation("TB_AdsImages");
                 });
 #pragma warning restore 612, 618
         }

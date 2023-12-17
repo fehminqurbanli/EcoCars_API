@@ -1,5 +1,5 @@
 ﻿using EcoCars_Project.Domain.Entities.Common;
-
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -12,6 +12,7 @@ namespace EcoCars_Project.Domain.Entities
         //[Required(ErrorMessage = "Ban növünü daxil edin")]
         public int Ban_Type { get; set; }
         //[Required(ErrorMessage = "Yürüşü daxil edin")]
+        public int Distance_Id { get; set; }
         public int Distance { get; set; }
         //[Required(ErrorMessage = "Rəngi daxil edin")]
         public int Color_Id { get; set; }
@@ -21,8 +22,9 @@ namespace EcoCars_Project.Domain.Entities
         //[Required(ErrorMessage = "Sürətlər qutusunu daxil edin")]
         public int Speed_Box { get; set; }
         public int Currency_Id { get; set; }
-        public bool Credit_Have { get; set; }
-        public bool Barter { get; set; }
+        public int seat_count { get; set; }
+        //public bool Credit_Have { get; set; }
+        //public bool Barter { get; set; }
 
         //[Required(ErrorMessage = "Ötürücünü daxil edin")]
         public int Transmission_Id { get; set; }
@@ -47,6 +49,7 @@ namespace EcoCars_Project.Domain.Entities
         public string phonenumber { get; set; }
 
 
+        [JsonIgnore]
         [ForeignKey("Ads_Id")]
         public List<TB_AdsImages> TB_AdsImages { get; set; }
         //public List<GeneralInfoModel> generalInfo { get; set; }
