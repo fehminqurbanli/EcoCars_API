@@ -49,7 +49,7 @@ namespace EcoCars_Project.Domain.Entities
         public string phonenumber { get; set; }
 
 
-        [JsonIgnore]
+        //[JsonIgnore]
         [ForeignKey("Ads_Id")]
         public List<TB_AdsImages> TB_AdsImages { get; set; }
         //public List<GeneralInfoModel> generalInfo { get; set; }

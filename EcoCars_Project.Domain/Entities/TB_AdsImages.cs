@@ -9,6 +9,7 @@ namespace EcoCars_Project.Domain.Entities
         public string CarImagePath { get; set; }
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Ads_Id { get; set; }
+        [JsonIgnore]
         public TB_Ads TB_Ads { get; set; }
         //[NotMapped]
         //public List<IFormFile> Photos { get; set; }

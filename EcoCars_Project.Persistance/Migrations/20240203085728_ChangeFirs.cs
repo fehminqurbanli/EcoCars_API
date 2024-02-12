@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EcoCars_Project.Persistance.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class ChangeFirs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,13 +46,13 @@ namespace EcoCars_Project.Persistance.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Model_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Ban_Type = table.Column<int>(type: "int", nullable: false),
+                    Distance_Id = table.Column<int>(type: "int", nullable: false),
                     Distance = table.Column<int>(type: "int", nullable: false),
                     Color_Id = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     Speed_Box = table.Column<int>(type: "int", nullable: false),
                     Currency_Id = table.Column<int>(type: "int", nullable: false),
-                    Credit_Have = table.Column<bool>(type: "bit", nullable: false),
-                    Barter = table.Column<bool>(type: "bit", nullable: false),
+                    seat_count = table.Column<int>(type: "int", nullable: false),
                     Transmission_Id = table.Column<int>(type: "int", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -62,10 +62,10 @@ namespace EcoCars_Project.Persistance.Migrations
                     Condisioner = table.Column<bool>(type: "bit", nullable: false),
                     Rear_Camera = table.Column<bool>(type: "bit", nullable: false),
                     Seat_Heating = table.Column<bool>(type: "bit", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    city = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    phonenumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

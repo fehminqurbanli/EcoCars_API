@@ -17,7 +17,7 @@ namespace EcoCars_Project.Persistance
                 configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../EcoCars/EcoCars_Project.API"));
                 configurationManager.AddJsonFile("appsettings.json");
 
-                return configurationManager.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+                return configurationManager.GetConnectionString("ECOCARS_SQL_CONNECTIONSTRING");
             }
         }
     }

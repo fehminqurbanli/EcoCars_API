@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcoCars_Project.Persistance.Migrations
 {
     [DbContext(typeof(EcoCarsDbContext))]
-    [Migration("20231029203324_TbAdsImages")]
-    partial class TbAdsImages
+    [Migration("20240203085728_ChangeFirs")]
+    partial class ChangeFirs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -6,6 +6,7 @@ using EcoCars_Project.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Session;
+using Microsoft.SqlServer.Server;
 using System.Net.Http.Headers;
 using System.Web;
 
@@ -53,22 +54,23 @@ namespace EcoCars_Project.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post(TB_Ads model)
-        {//images change
-            model.CreatedDate = DateTime.Now;
-            model.UpdatedDate = DateTime.Now;
+        public async Task<IActionResult> Post([FromForm] FormData formData)
+        {
+            
+            //model.CreatedDate = DateTime.Now;
+            //model.UpdatedDate = DateTime.Now;
 
            
-            await _tB_AdsWriteRepository.AddAsync(model);
-            await _tB_AdsWriteRepository.SaveAsync();
+            //await _tB_AdsWriteRepository.AddAsync(model);
+            //await _tB_AdsWriteRepository.SaveAsync();
 
-            var adsId = _tB_AdsReadRepository.GetAll().OrderByDescending(x=>x.CreatedDate).FirstOrDefault().Id;
-            List<TB_AdsImages> tB_AdsImages = new List<TB_AdsImages>();
-            foreach (var item in model.TB_AdsImages)
-            {
-                tB_AdsImages.Add(new TB_AdsImages() { CarImagePath = item.CarImagePath, Ads_Id = adsId });
-            }
-            await _tB_AdsImagesWriteRepository.AddRangeAsync(tB_AdsImages);
+            //var adsId = _tB_AdsReadRepository.GetAll().OrderByDescending(x=>x.CreatedDate).FirstOrDefault().Id;
+            //List<TB_AdsImages> tB_AdsImages = new List<TB_AdsImages>();
+            //foreach (var item in model.TB_AdsImages)
+            //{
+            //    tB_AdsImages.Add(new TB_AdsImages() { CarImagePath = item.CarImagePath, Ads_Id = adsId });
+            //}
+            //await _tB_AdsImagesWriteRepository.AddRangeAsync(tB_AdsImages);
 
             return Ok();
 
@@ -151,6 +153,38 @@ namespace EcoCars_Project.API.Controllers
                 return new JsonResult("anonymous.png");
             }
         }
+    }
+
+    public class FormData
+    {
+        public Guid model_id { get; set; }
+        public int ban_type { get; set; }
+        public int distance_id { get; set; }
+        public int distance { get; set; }
+        public int color_id { get; set; }
+        public int price { get; set; }
+        public int speed_box { get; set; }
+        public int currency_id { get; set; }
+        public int seat_count { get; set; }
+        ////public bool Credit_Have { get; set; }
+        ////public bool Barter { get; set; }
+
+        public int transmission_id { get; set; }
+        public int year { get; set; }
+
+        public string note { get; set; }
+        public bool leather_salon { get; set; }
+        public bool park_radar { get; set; }
+        public bool lyuk { get; set; }
+        public bool condisioner { get; set; }
+        public bool rear_camera { get; set; }
+        public bool seat_heating { get; set; }
+        public string name { get; set; }
+        public string city { get; set; }
+        public string email { get; set; }
+
+        public string phonenumber { get; set; }
+        public List<IFormFile> imageFile { get; set; }
     }
 
 }
