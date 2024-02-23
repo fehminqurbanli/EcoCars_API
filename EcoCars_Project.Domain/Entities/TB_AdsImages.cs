@@ -11,6 +11,7 @@ namespace EcoCars_Project.Domain.Entities
         public Guid Ads_Id { get; set; }
         [JsonIgnore]
         public TB_Ads TB_Ads { get; set; }
+        public byte[] imageData { get; set; } 
         //[NotMapped]
         //public List<IFormFile> Photos { get; set; }
     }

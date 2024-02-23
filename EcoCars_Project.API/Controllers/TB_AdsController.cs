@@ -3,9 +3,11 @@ using EcoCars_Project.Application.Repositories.ModelRepository;
 using EcoCars_Project.Application.Repositories.TB_AdsImagesRepository;
 using EcoCars_Project.Application.Repositories.TB_AdsRepository;
 using EcoCars_Project.Domain.Entities;
+using EcoCars_Project.Domain.Entities.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Session;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Server;
 using System.Net.Http.Headers;
 using System.Web;
@@ -41,7 +43,7 @@ namespace EcoCars_Project.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var result = _tB_AdsReadRepository.GetAll();
+            var result = _tB_AdsReadRepository.GetAll().Include<TB_Ads>("TB_AdsImages").ToList();
             return Ok(result);
         }
 
@@ -56,21 +58,112 @@ namespace EcoCars_Project.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] FormData formData)
         {
-            
-            //model.CreatedDate = DateTime.Now;
-            //model.UpdatedDate = DateTime.Now;
 
-           
-            //await _tB_AdsWriteRepository.AddAsync(model);
-            //await _tB_AdsWriteRepository.SaveAsync();
+            formData.CreatedDate = DateTime.Now;
+            formData.UpdatedDate = DateTime.Now;
 
-            //var adsId = _tB_AdsReadRepository.GetAll().OrderByDescending(x=>x.CreatedDate).FirstOrDefault().Id;
-            //List<TB_AdsImages> tB_AdsImages = new List<TB_AdsImages>();
-            //foreach (var item in model.TB_AdsImages)
+            var tb_Ads = new TB_Ads()
+            {
+                Ban_Type = formData.ban_type,
+                city = formData.city,
+                Color_Id = formData.color_id,
+                Condisioner = formData.condisioner,
+                CreatedDate = formData.CreatedDate,
+                Currency_Id = formData.currency_id,
+                Distance = formData.distance,
+                Distance_Id = formData.distance_id,
+                email = formData.email,
+                Leather_Salon = formData.leather_salon,
+                Lyuk = formData.lyuk,
+                Model_Id = formData.model_id,
+                name = formData.name,
+                Note = formData.note,
+                Park_Radar = formData.park_radar,
+                phonenumber = formData.phonenumber,
+                Price = formData.price,
+                Rear_Camera = formData.rear_camera,
+                seat_count = formData.seat_count,
+                Seat_Heating = formData.seat_heating,
+                Speed_Box = formData.speed_box,
+                Transmission_Id = formData.transmission_id,
+                UpdatedDate = formData.UpdatedDate,
+                Year = formData.year,
+            };
+
+            await _tB_AdsWriteRepository.AddAsync(tb_Ads);
+            await _tB_AdsWriteRepository.SaveAsync();
+
+
+
+
+            List<byte[]> imageDatas = new List<byte[]>();
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                foreach (var file in formData.imageFile)
+                {
+                    file.CopyTo(memoryStream);
+                    imageDatas.Add(memoryStream.ToArray());
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                }
+            }
+
+
+
+            //using (var ms = new MemoryStream())
             //{
-            //    tB_AdsImages.Add(new TB_AdsImages() { CarImagePath = item.CarImagePath, Ads_Id = adsId });
+
+            //    for (int i = 0; i < formData.imageFile.Count; i++)
+            //    {
+            //        await formData.imageFile[i].CopyToAsync(ms);
+            //    }
+            //    var imageData = new ImageData
+            //    {
+            //        Name = name,
+            //        Data = ms.ToArray()
+            //    };
+            //    _context.Images.Add(imageData);
+            //    await _context.SaveChangesAsync();
+            //    return Ok("Image uploaded successfully.");
+
+            //    var adsId = _tB_AdsReadRepository.GetAll().OrderByDescending(x => x.CreatedDate).FirstOrDefault().Id;
+            //    List<TB_AdsImages> tB_AdsImages = new List<TB_AdsImages>();
+            //    foreach (var item in imageDatas)
+            //    {
+            //        tB_AdsImages.Add(new TB_AdsImages() { CarImagePath = "test", Ads_Id = adsId, imageData = item });
+            //    }
+
+
+
+
+            //    await _tB_AdsImagesWriteRepository.AddRangeAsync(tB_AdsImages);
+            //    await _tB_AdsImagesWriteRepository.SaveAsync();
+
+
+            //    TB_AdsImages adsimg = new TB_AdsImages()
+            //    {
+            //        Ads_Id = adsId,
+            //        imageData = imageData,
+            //        CarImagePath = "test"
+            //    };
+            //    await _tB_AdsImagesWriteRepository.AddAsync(adsimg);
+            //    await _tB_AdsImagesWriteRepository.SaveAsync();
+
             //}
-            //await _tB_AdsImagesWriteRepository.AddRangeAsync(tB_AdsImages);
+
+
+
+            var adsId = _tB_AdsReadRepository.GetAll().OrderByDescending(x => x.CreatedDate).FirstOrDefault().Id;
+            List<TB_AdsImages> tB_AdsImages = new List<TB_AdsImages>();
+            foreach (var item in imageDatas)
+            {
+                tB_AdsImages.Add(new TB_AdsImages() { CarImagePath = "test", Ads_Id = adsId, imageData = item });
+            }
+
+
+
+
+            await _tB_AdsImagesWriteRepository.AddRangeAsync(tB_AdsImages);
+            await _tB_AdsImagesWriteRepository.SaveAsync();
 
             return Ok();
 
@@ -80,9 +173,11 @@ namespace EcoCars_Project.API.Controllers
         public IActionResult GetBrandNames()
         {
             var result = _brandReadRepository.GetAll();
-            
+
             return Ok(result);
         }
+
+
 
         [HttpGet("GetModelNames")]
         public IActionResult GetModelNames(string brandId)
@@ -91,7 +186,7 @@ namespace EcoCars_Project.API.Controllers
             //Guid brandId = _brandReadRepository.GetAll().Where(x => x.BrandName == brandName).FirstOrDefault().Id;
             if (brandId != null)
             {
-                result = _modelReadRepository.GetAll().Where(x => x.BrandId ==Guid.Parse(brandId));
+                result = _modelReadRepository.GetAll().Where(x => x.BrandId == Guid.Parse(brandId));
             }
             return Ok(result);
         }
@@ -155,7 +250,7 @@ namespace EcoCars_Project.API.Controllers
         }
     }
 
-    public class FormData
+    public class FormData : BaseEntity
     {
         public Guid model_id { get; set; }
         public int ban_type { get; set; }
@@ -184,6 +279,7 @@ namespace EcoCars_Project.API.Controllers
         public string email { get; set; }
 
         public string phonenumber { get; set; }
+        //public byte[] imageData { get; set; }
         public List<IFormFile> imageFile { get; set; }
     }
 
