@@ -48,9 +48,12 @@ namespace EcoCars_Project.API.Controllers
         }
 
         [HttpGet("GetById")]
-        public async Task<IActionResult> GetById(string id)
+        public IActionResult GetById(string id)
         {
-            var result = await _tB_AdsReadRepository.GetByIdAsync(id);
+            //var result = await _tB_AdsReadRepository.GetByIdAsync(id);
+            var result = _tB_AdsReadRepository.GetAll().Include("TB_AdsImages").FirstOrDefault(x=>x.Id==Guid.Parse(id));
+
+
             return Ok(result);
         }
 
@@ -186,9 +189,25 @@ namespace EcoCars_Project.API.Controllers
             //Guid brandId = _brandReadRepository.GetAll().Where(x => x.BrandName == brandName).FirstOrDefault().Id;
             if (brandId != null)
             {
+
                 result = _modelReadRepository.GetAll().Where(x => x.BrandId == Guid.Parse(brandId));
             }
             return Ok(result);
+        }
+        
+        [HttpGet("GetModelAndBrand")]
+        public IActionResult GetModelAndBrand(string modelId)
+        {
+            Model model=new Model();
+            ModelAndBrand modelAndBrand = new ModelAndBrand();  
+            if (modelId != null)
+            {
+                model = _modelReadRepository.GetAll().Include("Brand").FirstOrDefault(x => x.Id == Guid.Parse(modelId));
+                modelAndBrand.modelName = model.ModelName;
+                modelAndBrand.brandName = model.Brand.BrandName;
+
+            }
+            return Ok(modelAndBrand);
         }
 
         //[HttpPost("Upload"), DisableRequestSizeLimit]
@@ -281,6 +300,12 @@ namespace EcoCars_Project.API.Controllers
         public string phonenumber { get; set; }
         //public byte[] imageData { get; set; }
         public List<IFormFile> imageFile { get; set; }
+    }
+
+    public class ModelAndBrand
+    {
+        public string brandName { get; set; } 
+        public string modelName { get; set; } 
     }
 
 }
