@@ -46,6 +46,17 @@ namespace EcoCars_Project.API.Controllers
             var result = _tB_AdsReadRepository.GetAll().Include<TB_Ads>("TB_AdsImages").ToList();
             return Ok(result);
         }
+        
+        
+        [HttpGet("GetTopThreeCars")]
+        public IActionResult GetTopThreeCars()
+        {
+            var result = _tB_AdsReadRepository.GetAll().Where(x=>x.Price>50000 && x.Year>2020 && x.CreatedDate.Month==DateTime.Now.Month).Take(3).Include<TB_Ads>("TB_AdsImages").ToList();
+            return Ok(result);
+        }
+
+
+
 
         [HttpGet("GetById")]
         public IActionResult GetById(string id)
