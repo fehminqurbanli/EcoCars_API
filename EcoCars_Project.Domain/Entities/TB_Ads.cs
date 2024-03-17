@@ -9,6 +9,7 @@ namespace EcoCars_Project.Domain.Entities
     {
         //[Required(ErrorMessage = "Modeli daxil edin")]
         public Guid Model_Id { get; set; }
+        public Guid Brand_Id { get; set; }
         //[Required(ErrorMessage = "Ban növünü daxil edin")]
         public int Ban_Type { get; set; }
         //[Required(ErrorMessage = "Yürüşü daxil edin")]

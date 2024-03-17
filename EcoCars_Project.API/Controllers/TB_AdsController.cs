@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Server;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Web;
 
 namespace EcoCars_Project.API.Controllers
@@ -46,12 +47,12 @@ namespace EcoCars_Project.API.Controllers
             var result = _tB_AdsReadRepository.GetAll().Include<TB_Ads>("TB_AdsImages").ToList();
             return Ok(result);
         }
-        
-        
+
+
         [HttpGet("GetTopThreeCars")]
         public IActionResult GetTopThreeCars()
         {
-            var result = _tB_AdsReadRepository.GetAll().Where(x=>x.Price>50000 && x.Year>2020 && x.CreatedDate.Month==DateTime.Now.Month).Take(3).Include<TB_Ads>("TB_AdsImages").ToList();
+            var result = _tB_AdsReadRepository.GetAll().Where(x => x.Price > 50000 && x.Year > 2020 && x.CreatedDate.Month == DateTime.Now.Month).Take(3).Include<TB_Ads>("TB_AdsImages").ToList();
             return Ok(result);
         }
 
@@ -62,7 +63,30 @@ namespace EcoCars_Project.API.Controllers
         public IActionResult GetById(string id)
         {
             //var result = await _tB_AdsReadRepository.GetByIdAsync(id);
-            var result = _tB_AdsReadRepository.GetAll().Include("TB_AdsImages").FirstOrDefault(x=>x.Id==Guid.Parse(id));
+            var result = _tB_AdsReadRepository.GetAll().Include("TB_AdsImages").FirstOrDefault(x => x.Id == Guid.Parse(id));
+
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetByBrandId")]
+        public IActionResult GetByBrandId(string brandId,string modelId)
+        {
+            var result=new List<TB_Ads>();
+            if (brandId=="undefined" && modelId == "undefined")
+            {
+                result = _tB_AdsReadRepository.GetAll().Include<TB_Ads>("TB_AdsImages").ToList();
+            }
+            else if (brandId != "undefined" && modelId == "undefined")
+            {
+                result = _tB_AdsReadRepository.GetAll().Where(x => x.Brand_Id == Guid.Parse(brandId)).Include("TB_AdsImages").ToList();
+
+            }
+            else
+            {
+                result = _tB_AdsReadRepository.GetAll().Where(x => x.Brand_Id == Guid.Parse(brandId) && x.Model_Id == Guid.Parse(modelId)).Include("TB_AdsImages").ToList();
+            }
+            //var bId = _modelReadRepository.GetAll().FirstOrDefault(x => x.BrandId == Guid.Parse(brandId));
 
 
             return Ok(result);
@@ -90,6 +114,7 @@ namespace EcoCars_Project.API.Controllers
                 Leather_Salon = formData.leather_salon,
                 Lyuk = formData.lyuk,
                 Model_Id = formData.model_id,
+                Brand_Id = formData.brand_id,
                 name = formData.name,
                 Note = formData.note,
                 Park_Radar = formData.park_radar,
@@ -205,12 +230,12 @@ namespace EcoCars_Project.API.Controllers
             }
             return Ok(result);
         }
-        
+
         [HttpGet("GetModelAndBrand")]
         public IActionResult GetModelAndBrand(string modelId)
         {
-            Model model=new Model();
-            ModelAndBrand modelAndBrand = new ModelAndBrand();  
+            Model model = new Model();
+            ModelAndBrand modelAndBrand = new ModelAndBrand();
             if (modelId != null)
             {
                 model = _modelReadRepository.GetAll().Include("Brand").FirstOrDefault(x => x.Id == Guid.Parse(modelId));
@@ -283,6 +308,7 @@ namespace EcoCars_Project.API.Controllers
     public class FormData : BaseEntity
     {
         public Guid model_id { get; set; }
+        public Guid brand_id { get; set; }
         public int ban_type { get; set; }
         public int distance_id { get; set; }
         public int distance { get; set; }
@@ -315,8 +341,8 @@ namespace EcoCars_Project.API.Controllers
 
     public class ModelAndBrand
     {
-        public string brandName { get; set; } 
-        public string modelName { get; set; } 
+        public string brandName { get; set; }
+        public string modelName { get; set; }
     }
 
 }
