@@ -40,6 +40,7 @@ namespace EcoCars_Project.Persistance.Contexts
         public DbSet<GeneralInfo> GeneralInfos { get; set; }
         public DbSet<TB_Ads> TB_Ads { get; set; }
         public DbSet<TB_AdsImages> TB_AdsImages { get; set; }
+        public DbSet<RatingData> RatingDatas { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
