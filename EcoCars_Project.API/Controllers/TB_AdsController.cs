@@ -44,7 +44,7 @@ namespace EcoCars_Project.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var result = _tB_AdsReadRepository.GetAll().Include<TB_Ads>("TB_AdsImages").ToList();
+            var result = _tB_AdsReadRepository.GetAll().OrderByDescending(x=>x.CreatedDate).Include<TB_Ads>("TB_AdsImages").ToList();
             return Ok(result);
         }
 
@@ -52,7 +52,7 @@ namespace EcoCars_Project.API.Controllers
         [HttpGet("GetTopThreeCars")]
         public IActionResult GetTopThreeCars()
         {
-            var result = _tB_AdsReadRepository.GetAll().Where(x => x.Price > 50000 && x.Year > 2020 && x.CreatedDate.Month == DateTime.Now.Month).Take(3).Include<TB_Ads>("TB_AdsImages").ToList();
+            var result = _tB_AdsReadRepository.GetAll().OrderByDescending(x=>x.CreatedDate).Where(x => x.Price > 50000 && x.Year > 2020 && x.CreatedDate.Month == DateTime.Now.Month).Take(3).Include<TB_Ads>("TB_AdsImages").ToList();
             return Ok(result);
         }
 
